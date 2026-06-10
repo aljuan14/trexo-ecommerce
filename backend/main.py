@@ -101,3 +101,13 @@ def get_recommendations(request: RecommendRequest):
         raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/catalog")
+def get_catalog():
+    try:
+        sample_size = min(12, len(df))
+        catalog_df = df.sample(n=sample_size)
+        catalog_data = catalog_df[['Product_Name', 'Product_Brand', 'Sub_Category']].to_dict(orient='records')
+        return catalog_data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

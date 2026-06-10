@@ -5,15 +5,29 @@ function App() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState(null);
 
-  // State untuk katalog mock-up (jika ingin menampilkan produk sebelum dicari)
-  const [catalog, setCatalog] = useState([
-    { Product_Name: "iPhone 14 Pro Max", Product_Brand: "Apple", Sub_Category: "Smartphone" },
-    { Product_Name: "Samsung Galaxy S23 Ultra", Product_Brand: "Samsung", Sub_Category: "Smartphone" },
-    { Product_Name: "Sony PlayStation 5", Product_Brand: "Sony", Sub_Category: "Gaming Console" },
-    { Product_Name: "Dell XPS 15", Product_Brand: "Dell", Sub_Category: "Laptop" },
-    { Product_Name: "Sony WH-1000XM5", Product_Brand: "Sony", Sub_Category: "Audio" },
-    { Product_Name: "LG C2 OLED TV", Product_Brand: "LG", Sub_Category: "Television" }
-  ]);
+  // State untuk menyimpan katalog dari backend
+  const [catalog, setCatalog] = useState([]);
+  const [isLoadingCatalog, setIsLoadingCatalog] = useState(true);
+
+  // Mengambil katalog saat komponen pertama kali di-mount
+  useEffect(() => {
+    const fetchCatalog = async () => {
+      try {
+        setIsLoadingCatalog(true);
+        const response = await fetch('http://127.0.0.1:8000/api/catalog');
+        if (!response.ok) {
+          throw new Error('Gagal memuat katalog');
+        }
+        const data = await response.json();
+        setCatalog(data);
+      } catch (error) {
+        console.error('Error fetching catalog:', error);
+      } finally {
+        setIsLoadingCatalog(false);
+      }
+    };
+    fetchCatalog();
+  }, []);
 
   const triggerAnalysis = async (e) => {
     e.preventDefault();
@@ -162,24 +176,30 @@ function App() {
               <h2 className="text-xl font-bold text-slate-800">Eksplorasi Populer</h2>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {catalog.map((item, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleProductClick(item.Product_Name)}
-                  className="bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-md transition-shadow cursor-pointer group"
-                >
-                  <div className="aspect-square bg-slate-50 rounded-xl border border-slate-100 mb-4 flex items-center justify-center group-hover:bg-slate-100 transition-colors">
-                    <svg className="w-12 h-12 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+            {isLoadingCatalog ? (
+              <div className="flex justify-center items-center py-10">
+                <span className="text-slate-500 font-medium">Memuat katalog...</span>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {catalog.map((item, index) => (
+                  <div
+                    key={index}
+                    onClick={() => handleProductClick(item.Product_Name)}
+                    className="bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-md transition-shadow cursor-pointer group"
+                  >
+                    <div className="aspect-square bg-slate-50 rounded-xl border border-slate-100 mb-4 flex items-center justify-center group-hover:bg-slate-100 transition-colors">
+                      <svg className="w-12 h-12 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                    </div>
+                    <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 block">{item.Product_Brand}</span>
+                    <h4 className="font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2">{item.Product_Name}</h4>
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-md">{item.Sub_Category}</span>
+                    </div>
                   </div>
-                  <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 block">{item.Product_Brand}</span>
-                  <h4 className="font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2">{item.Product_Name}</h4>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-md">{item.Sub_Category}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
