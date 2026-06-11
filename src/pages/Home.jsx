@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search } from 'lucide-react';
+import { Search, Sparkles, Cpu, Cpu as CpuIcon, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
 
 export const formatRupiah = (number) => {
@@ -23,7 +23,6 @@ const Home = () => {
   const [activeCategory, setActiveCategory] = useState('Semua');
   const categories = ['Semua', 'Smartphone', 'Laptop', 'Tablet', 'Television', 'Headphones'];
 
-  // Sync search input with URL params
   useEffect(() => {
     if (queryParam) {
       setSearchQuery(queryParam);
@@ -42,7 +41,7 @@ const Home = () => {
           .from('products')
           .select('*')
           .order('id', { ascending: true })
-          .limit(100); // Tampilkan 100 produk terbaru
+          .limit(100);
         
         if (error) throw error;
         setCatalog(data || []);
@@ -93,83 +92,144 @@ const Home = () => {
     : catalog.filter(item => item.Sub_Category === activeCategory);
 
   return (
-    <main className="max-w-6xl mx-auto px-6 py-10">
-      {result ? (
-        <div>
-          <div className="mb-8 flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-slate-900">Hasil Analisis Produk</h2>
-              <p className="text-slate-500 mt-1">Produk referensi: <strong className="text-indigo-600">{result.source_product}</strong></p>
-            </div>
-            <button
-              onClick={clearSearch}
-              className="text-sm text-slate-500 hover:text-slate-800 underline underline-offset-4"
-            >
-              Kembali ke Katalog
-            </button>
+    <main className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-indigo-500/20">
+      
+      {/* 🌟 AI HERO SECTION (CERIA & TERANG) */}
+      <div className="relative overflow-hidden border-b border-indigo-100 bg-white">
+        {/* Soft Pastel Glow Effects */}
+        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-indigo-200/50 blur-[120px] rounded-full pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-pink-200/50 blur-[100px] rounded-full pointer-events-none"></div>
+        <div className="absolute top-1/4 right-0 w-[300px] h-[300px] bg-sky-200/50 blur-[100px] rounded-full pointer-events-none"></div>
+
+        <div className="max-w-5xl mx-auto px-6 pt-24 pb-20 relative z-10 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-sm font-bold mb-6 shadow-sm">
+            <Sparkles className="w-4 h-4 text-amber-500" />
+            <span>TREXO AI Recommendation Engine</span>
           </div>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 mb-6 tracking-tight">
+            Temukan Gadget Masa Depanmu
+          </h1>
+          <p className="text-slate-600 max-w-2xl mx-auto text-lg mb-10 leading-relaxed font-medium">
+            Beritahu AI cerdas kami apa yang Anda cari. Sistem Content-Based Filtering kami akan merekomendasikan pilihan terbaik khusus untuk Anda!
+          </p>
 
-          <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm mb-8">
-            <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
-              <Search className="w-5 h-5 text-indigo-500" />
-              Top 5 Rekomendasi Serupa (Content-Based)
-            </h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-              {result.recommendations.map((item, index) => (
-                <Link to={`/product/${item.id}`} key={index} className="block border border-slate-100 bg-slate-50 rounded-xl p-4 hover:border-indigo-300 transition-colors">
-                  <div className="h-32 bg-white rounded-lg border border-slate-100 mb-3 flex items-center justify-center overflow-hidden">
-                    {item.Image_URL ? (
-                      <img src={item.Image_URL} alt={item.Product_Name} className="object-cover w-full h-full" />
-                    ) : (
-                      <span className="text-slate-300">No Image</span>
-                    )}
-                  </div>
-                  <span className="text-[10px] font-bold tracking-wider text-indigo-600 uppercase mb-1 block">{item.Product_Brand}</span>
-                  <h4 className="font-medium text-sm text-slate-900 line-clamp-2 leading-snug">{item.Product_Name}</h4>
-                  <p className="text-xs text-slate-500 mt-1">{item.Sub_Category}</p>
-                  <p className="text-sm font-bold text-slate-800 mt-2">{formatRupiah(item.Price || 0)}</p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div>
-          {/* Hero Section Banner */}
-          <div className="bg-gradient-to-r from-indigo-900 to-slate-800 rounded-3xl p-10 text-white mb-10 shadow-lg">
-            <h1 className="text-4xl font-bold mb-4">Temukan Gadget Idealmu</h1>
-            <p className="text-indigo-200 max-w-xl text-lg mb-8">
-              TREXO menggunakan AI Content-Based Filtering untuk mencocokkan spesifikasi dan merekomendasikan alternatif terbaik untukmu.
-            </p>
-
-            {/* Mobile Search Bar */}
-            <form onSubmit={handleSearchSubmit} className="md:hidden relative mb-4">
+          {/* AI Prompt Bar */}
+          <form onSubmit={handleSearchSubmit} className="max-w-3xl mx-auto relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 rounded-2xl blur-md opacity-30 group-hover:opacity-50 transition duration-500"></div>
+            <div className="relative flex items-center bg-white border border-slate-200 rounded-2xl p-2 shadow-xl">
+              <div className="pl-4 pr-2 text-indigo-400">
+                <Search className="w-6 h-6" />
+              </div>
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cari produk..."
-                className="w-full pl-4 pr-12 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:bg-white/20"
+                placeholder="Ketik impian gadget Anda (contoh: iPhone 14 Pro)..."
+                className="w-full bg-transparent text-slate-800 text-lg px-2 py-4 focus:outline-none placeholder-slate-400 font-medium"
               />
-              <button type="submit" className="absolute right-2 top-2 p-1.5 bg-indigo-500 rounded-lg">
-                <Search className="w-5 h-5 text-white" />
+              <button 
+                type="submit" 
+                disabled={isAnalyzing}
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white px-6 py-4 rounded-xl font-bold flex items-center gap-2 transition-all disabled:opacity-50 shadow-md"
+              >
+                {isAnalyzing ? (
+                  <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                ) : (
+                  <>
+                    <span>Generate</span>
+                    <Sparkles className="w-4 h-4 text-pink-200" />
+                  </>
+                )}
               </button>
-            </form>
-          </div>
+            </div>
+          </form>
+        </div>
+      </div>
 
-          {/* Catalog Grid */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-            <h2 className="text-xl font-bold text-slate-800">Eksplorasi Populer</h2>
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        {/* 🤖 AI RESULTS SECTION */}
+        {result ? (
+          <div className="mb-20">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-100 flex items-center justify-center border border-indigo-200 shadow-sm">
+                  <CpuIcon className="w-6 h-6 text-indigo-600" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-extrabold text-slate-800 flex items-center gap-2">
+                    Hasil Analisis Matriks <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-500">AI</span>
+                  </h2>
+                  <p className="text-slate-500 text-sm mt-1 font-medium">
+                    Referensi input: <strong className="text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded ml-1">{result.source_product}</strong>
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={clearSearch}
+                className="text-sm font-bold text-slate-500 hover:text-slate-800 flex items-center gap-2 transition-colors bg-white hover:bg-slate-100 px-4 py-2 rounded-lg border border-slate-200 shadow-sm"
+              >
+                Tutup Analisis
+              </button>
+            </div>
+
+            <div className="relative">
+              {/* Glassmorphism Box for AI Results */}
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-100 to-pink-100 rounded-3xl blur-xl opacity-70"></div>
+              <div className="relative bg-white/70 backdrop-blur-xl rounded-3xl p-8 border border-white shadow-xl">
+                
+                <div className="flex items-center gap-2 mb-6 text-indigo-600 font-bold tracking-wide text-sm uppercase">
+                  <Sparkles className="w-5 h-5 text-amber-500" />
+                  <span>Top 5 Rekomendasi Teratas</span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+                  {result.recommendations.map((item, index) => (
+                    <Link to={`/product/${item.id}`} key={index} className="group relative block">
+                      <div className="absolute -inset-1 bg-gradient-to-b from-indigo-200 to-pink-200 opacity-0 group-hover:opacity-100 rounded-2xl transition duration-300 blur-sm"></div>
+                      <div className="relative bg-white border border-slate-100 rounded-2xl p-4 h-full flex flex-col hover:border-indigo-200 shadow-sm hover:shadow-md transition-all">
+                        <div className="h-32 bg-slate-50 rounded-xl border border-slate-100 mb-4 flex items-center justify-center overflow-hidden">
+                          {item.Image_URL ? (
+                            <img src={item.Image_URL} alt={item.Product_Name} className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" />
+                          ) : (
+                            <span className="text-slate-400">No Image</span>
+                          )}
+                        </div>
+                        <span className="text-[10px] font-extrabold tracking-wider text-indigo-500 uppercase mb-2 block">{item.Product_Brand}</span>
+                        <h4 className="font-bold text-sm text-slate-800 line-clamp-2 leading-snug mb-2 group-hover:text-indigo-600 transition-colors">{item.Product_Name}</h4>
+                        <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between">
+                          <span className="text-sm font-black text-slate-900">{formatRupiah(item.Price || 0)}</span>
+                          <ArrowRight className="w-5 h-5 text-indigo-300 group-hover:text-indigo-600 transition-colors -translate-x-2 group-hover:translate-x-0" />
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
+        {/* 📦 GLOBAL CATALOG SECTION */}
+        <div className={result ? "opacity-40 grayscale-[20%] pointer-events-none transition-all duration-500" : "transition-all duration-500"}>
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+            <div>
+              <h2 className="text-3xl font-extrabold text-slate-800 mb-2">Eksplorasi Katalog</h2>
+              <p className="text-slate-500 font-medium">Jelajahi seluruh koleksi premium kami.</p>
+            </div>
+            
+            {/* Bright Filters */}
             <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
               {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+                  className={`px-6 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all duration-300 border ${
                     activeCategory === cat
-                      ? 'bg-indigo-600 text-white shadow-md'
-                      : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                      ? 'bg-slate-800 border-slate-800 text-white shadow-lg shadow-slate-300'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300'
                   }`}
                 >
                   {cat}
@@ -179,48 +239,41 @@ const Home = () => {
           </div>
 
           {isLoadingCatalog ? (
-            <div className="flex justify-center items-center py-10">
-              <span className="text-slate-500 font-medium">Memuat katalog...</span>
+            <div className="flex justify-center items-center py-20">
+              <div className="flex flex-col items-center gap-4">
+                <svg className="animate-spin h-10 w-10 text-indigo-500" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                <span className="text-indigo-600 font-bold tracking-wide">Menyiapkan Koleksi Terbaik...</span>
+              </div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
               {filteredCatalog.map((item, index) => (
                 <Link
                   to={`/product/${item.id}`}
                   key={index}
-                  className="bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-md transition-shadow cursor-pointer group flex flex-col"
+                  className="bg-white border border-slate-200 rounded-2xl p-5 hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-100 transition-all duration-300 group flex flex-col"
                 >
-                  <div className="aspect-square bg-slate-50 rounded-xl border border-slate-100 mb-4 flex items-center justify-center overflow-hidden group-hover:bg-slate-100 transition-colors">
+                  <div className="aspect-square bg-slate-50 rounded-xl mb-5 flex items-center justify-center overflow-hidden">
                     {item.Image_URL ? (
-                      <img src={item.Image_URL} alt={item.Product_Name} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
+                      <img src={item.Image_URL} alt={item.Product_Name} className="object-cover w-full h-full group-hover:scale-110 group-hover:rotate-2 transition-transform duration-500 mix-blend-multiply" />
                     ) : (
-                      <span className="text-slate-300">No Image</span>
+                      <span className="text-slate-400">No Image</span>
                     )}
                   </div>
-                  <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 block">{item.Product_Brand}</span>
-                  <h4 className="font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2">{item.Product_Name}</h4>
+                  <span className="text-[10px] font-extrabold tracking-widest text-indigo-500 uppercase mb-2 block">{item.Product_Brand}</span>
+                  <h4 className="font-bold text-slate-800 group-hover:text-indigo-600 transition-colors line-clamp-2 text-sm leading-relaxed">{item.Product_Name}</h4>
                   <div className="mt-auto pt-4 flex items-center justify-between">
-                    <span className="text-sm font-bold text-slate-800">{formatRupiah(item.Price || 0)}</span>
+                    <span className="text-sm font-black text-slate-900">{formatRupiah(item.Price || 0)}</span>
                   </div>
                 </Link>
               ))}
             </div>
           )}
         </div>
-      )}
-
-      {/* Loading Overlay */}
-      {isAnalyzing && (
-        <div className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-2xl shadow-xl flex items-center gap-4">
-            <svg className="animate-spin h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-            </svg>
-            <span className="font-medium text-slate-700">Menganalisis matriks produk...</span>
-          </div>
-        </div>
-      )}
+      </div>
     </main>
   );
 };

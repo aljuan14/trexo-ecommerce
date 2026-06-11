@@ -144,3 +144,5 @@ def get_product(product_id: int):
         raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# Trigger auto-reload for new data
