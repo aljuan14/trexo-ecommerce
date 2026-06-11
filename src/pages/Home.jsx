@@ -20,6 +20,8 @@ const Home = () => {
   const [result, setResult] = useState(null);
   const [catalog, setCatalog] = useState([]);
   const [isLoadingCatalog, setIsLoadingCatalog] = useState(true);
+  const [activeCategory, setActiveCategory] = useState('Semua');
+  const categories = ['Semua', 'Smartphone', 'Laptop', 'Tablet', 'Television', 'Headphones'];
 
   // Sync search input with URL params
   useEffect(() => {
@@ -39,7 +41,8 @@ const Home = () => {
         const { data, error } = await supabase
           .from('products')
           .select('*')
-          .limit(12);
+          .order('id', { ascending: true })
+          .limit(100); // Tampilkan 100 produk terbaru
         
         if (error) throw error;
         setCatalog(data || []);
@@ -84,6 +87,10 @@ const Home = () => {
   const clearSearch = () => {
     setSearchParams({});
   };
+
+  const filteredCatalog = activeCategory === 'Semua' 
+    ? catalog 
+    : catalog.filter(item => item.Sub_Category === activeCategory);
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-10">
@@ -152,8 +159,23 @@ const Home = () => {
           </div>
 
           {/* Catalog Grid */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
             <h2 className="text-xl font-bold text-slate-800">Eksplorasi Populer</h2>
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+                    activeCategory === cat
+                      ? 'bg-indigo-600 text-white shadow-md'
+                      : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
 
           {isLoadingCatalog ? (
@@ -162,7 +184,7 @@ const Home = () => {
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {catalog.map((item, index) => (
+              {filteredCatalog.map((item, index) => (
                 <Link
                   to={`/product/${item.id}`}
                   key={index}
