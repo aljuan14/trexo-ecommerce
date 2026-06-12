@@ -2,14 +2,14 @@
 
 **TREXO** is a modern e-commerce platform that integrates a machine-learning-based recommendation engine. It provides a seamless and responsive user experience using a React (Vite) frontend, paired with a high-performance Python FastAPI backend that serves content-based product recommendations.
 
-## 🚀 Key Features
+## Key Features
 
 - **Dynamic Recommendation Engine**: Uses Content-Based Filtering (TF-IDF & Cosine Similarity) to suggest similar products based on brand, category, description, and specifications.
 - **Mock & Production Data Modes**: The backend gracefully falls back to mock data if the machine learning model files are absent, allowing for easy local development.
 - **Modern UI/UX**: Fast, responsive, and beautiful user interface built with React 19 and Tailwind CSS.
 - **Supabase Integration**: Uses Supabase as the primary Database and Backend-as-a-Service for storing product catalogs.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - **Framework**: React 19
@@ -26,7 +26,7 @@
 - **Machine Learning**: Scikit-learn (TF-IDF Vectorizer, Linear Kernel for Cosine Similarity)
 - **Database Connection**: Supabase Python Client
 
-## 🧠 Machine Learning Architecture
+## Machine Learning Architecture
 
 The recommendation system uses a **Content-Based Filtering** approach:
 1. **Data Fetching**: The `train_model.py` script fetches the product catalog from Supabase.
