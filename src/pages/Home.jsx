@@ -94,20 +94,15 @@ const Home = () => {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-indigo-500/20">
       
-      {/* 🌟 AI HERO SECTION (CERIA & TERANG) */}
+      {/* 🌟 AI HERO SECTION */}
       <div className="relative overflow-hidden border-b border-indigo-100 bg-white">
-        {/* Soft Pastel Glow Effects */}
-        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-indigo-200/50 blur-[120px] rounded-full pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-pink-200/50 blur-[100px] rounded-full pointer-events-none"></div>
-        <div className="absolute top-1/4 right-0 w-[300px] h-[300px] bg-sky-200/50 blur-[100px] rounded-full pointer-events-none"></div>
-
         <div className="max-w-5xl mx-auto px-6 pt-24 pb-20 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-sm font-bold mb-6 shadow-sm">
             <Sparkles className="w-4 h-4 text-amber-500" />
             <span>TREXO AI Recommendation Engine</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 mb-6 tracking-tight">
-            Temukan Gadget Masa Depanmu
+            Temukan Elektronik Masa Depanmu
           </h1>
           <p className="text-slate-600 max-w-2xl mx-auto text-lg mb-10 leading-relaxed font-medium">
             Beritahu AI cerdas kami apa yang Anda cari. Sistem Content-Based Filtering kami akan merekomendasikan pilihan terbaik khusus untuk Anda!
@@ -124,7 +119,7 @@ const Home = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Ketik impian gadget Anda (contoh: iPhone 14 Pro)..."
+                placeholder="Ketik impian elektronik Anda (contoh: iPhone 14 Pro, Samsung TV)..."
                 className="w-full bg-transparent text-slate-800 text-lg px-2 py-4 focus:outline-none placeholder-slate-400 font-medium"
               />
               <button 
