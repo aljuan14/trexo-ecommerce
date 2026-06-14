@@ -1,15 +1,15 @@
-# TREXO - E-Commerce Recommendation Engine
+# TREXO - Mesin Rekomendasi E-Commerce
 
-**TREXO** is a modern e-commerce platform that integrates a machine-learning-based recommendation engine. It provides a seamless and responsive user experience using a React (Vite) frontend, paired with a high-performance Python FastAPI backend that serves content-based product recommendations.
+**TREXO** adalah platform e-commerce modern yang mengintegrasikan mesin rekomendasi berbasis *machine-learning*. Platform ini memberikan pengalaman pengguna yang mulus dan responsif menggunakan antarmuka React (Vite), dipadukan dengan *backend* Python FastAPI berperforma tinggi yang menyajikan rekomendasi produk berbasis konten (*content-based*).
 
-## Key Features
+## Fitur Utama
 
-- **Dynamic Recommendation Engine**: Uses Content-Based Filtering (TF-IDF & Cosine Similarity) to suggest similar products based on brand, category, description, and specifications.
-- **Mock & Production Data Modes**: The backend gracefully falls back to mock data if the machine learning model files are absent, allowing for easy local development.
-- **Modern UI/UX**: Fast, responsive, and beautiful user interface built with React 19 and Tailwind CSS.
-- **Supabase Integration**: Uses Supabase as the primary Database and Backend-as-a-Service for storing product catalogs.
+- **Mesin Rekomendasi Dinamis**: Menggunakan *Content-Based Filtering* (TF-IDF & Cosine Similarity) untuk menyarankan produk serupa berdasarkan merek, kategori, deskripsi, dan spesifikasi.
+- **Mode Data Mock & Produksi**: *Backend* akan secara otomatis menggunakan data *mock* (palsu) jika file model *machine learning* tidak ditemukan, sehingga memudahkan pengembangan lokal.
+- **UI/UX Modern**: Antarmuka pengguna yang cepat, responsif, dan indah dibangun dengan React 19 dan Tailwind CSS.
+- **Integrasi Supabase**: Menggunakan Supabase sebagai Database utama dan *Backend-as-a-Service* (BaaS) untuk menyimpan katalog produk.
 
-## Tech Stack
+## Teknologi yang Digunakan
 
 ### Frontend
 - **Framework**: React 19
@@ -22,68 +22,68 @@
 ### Backend
 - **Framework**: FastAPI (Python)
 - **Server**: Uvicorn
-- **Data Processing**: Pandas, NumPy
-- **Machine Learning**: Scikit-learn (TF-IDF Vectorizer, Linear Kernel for Cosine Similarity)
-- **Database Connection**: Supabase Python Client
+- **Pemrosesan Data**: Pandas, NumPy
+- **Machine Learning**: Scikit-learn (TF-IDF Vectorizer, Linear Kernel untuk Cosine Similarity)
+- **Koneksi Database**: Supabase Python Client
 
-## Machine Learning Architecture
+## Arsitektur Machine Learning
 
-The recommendation system uses a **Content-Based Filtering** approach:
-1. **Data Fetching**: The `train_model.py` script fetches the product catalog from Supabase.
-2. **Text Processing**: It combines `Product_Brand`, `Sub_Category`, `Description`, and `Specs` into a single text block for each product.
-3. **Vectorization**: Scikit-learn's `TfidfVectorizer` converts the text into a matrix of TF-IDF features.
-4. **Similarity Calculation**: A Cosine Similarity matrix is calculated using a linear kernel.
-5. **Model Export**: The resulting similarity matrix and product ID mappings are exported as `.pkl` files (`recommendation_model.pkl` and `product_mapping.pkl`).
-6. **API Serving**: The FastAPI backend loads these `.pkl` files and serves real-time recommendations via the `/api/recommend` endpoint.
+Sistem rekomendasi ini menggunakan pendekatan **Content-Based Filtering**:
+1. **Pengambilan Data**: Skrip `train_model.py` mengambil katalog produk dari Supabase.
+2. **Pemrosesan Teks**: Skrip ini menggabungkan `Product_Brand`, `Sub_Category`, `Description`, dan `Specs` menjadi satu blok teks utuh untuk setiap produk.
+3. **Vektorisasi**: `TfidfVectorizer` dari Scikit-learn mengubah teks tersebut menjadi matriks fitur TF-IDF.
+4. **Perhitungan Kemiripan**: Matriks Cosine Similarity dihitung menggunakan *linear kernel*.
+5. **Ekspor Model**: Matriks kemiripan dan pemetaan ID produk yang dihasilkan diekspor sebagai file `.pkl` (`recommendation_model.pkl` dan `product_mapping.pkl`).
+6. **API Serving**: *Backend* FastAPI memuat file-file `.pkl` tersebut dan menyajikan rekomendasi secara *real-time* melalui *endpoint* `/api/recommend`.
 
-## 🏁 Getting Started
+## 🏁 Memulai Proyek
 
-### Prerequisites
-- Node.js (v18 or higher recommended)
-- Python (v3.8 or higher recommended)
-- A Supabase account and project
+### Persyaratan
+- Node.js (direkomendasikan v18 atau lebih baru)
+- Python (direkomendasikan v3.8 atau lebih baru)
+- Akun dan proyek Supabase
 
-### Environment Variables
+### Variabel Lingkungan (Environment Variables)
 
-#### Frontend (`.env` in root)
-Create a `.env` file in the root directory:
+#### Frontend (`.env` di folder utama)
+Buat file `.env` di direktori utama (*root*):
 ```env
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_SUPABASE_URL=url_supabase_anda
+VITE_SUPABASE_ANON_KEY=anon_key_supabase_anda
 ```
 
 #### Backend (`backend/.env`)
-Create a `.env` file in the `backend/` directory:
+Buat file `.env` di direktori `backend/`:
 ```env
-SUPABASE_URL=your_supabase_url
-SUPABASE_KEY=your_supabase_service_role_key
+SUPABASE_URL=url_supabase_anda
+SUPABASE_KEY=service_role_key_supabase_anda
 ```
 
-### Running the Frontend
-1. Navigate to the root directory.
-2. Install dependencies:
+### Menjalankan Frontend
+1. Buka terminal dan arahkan ke direktori utama.
+2. Instal dependensi:
    ```bash
    npm install
    ```
-3. Start the Vite development server:
+3. Mulai server pengembangan Vite:
    ```bash
    npm run dev
    ```
-   *The frontend will run on `http://localhost:5173`.*
+   *Frontend akan berjalan di `http://localhost:5173`.*
 
-### Running the Backend
-1. Navigate to the `backend/` directory.
-2. Install Python dependencies:
+### Menjalankan Backend
+1. Arahkan ke direktori `backend/`.
+2. Instal dependensi Python:
    ```bash
    pip install fastapi uvicorn pandas numpy scikit-learn python-dotenv supabase
    ```
-3. (Optional) Train the recommendation model:
+3. (Opsional) Latih model rekomendasi:
    ```bash
    python train_model.py
    ```
-   *This will generate `recommendation_model.pkl` and `product_mapping.pkl`.*
-4. Start the FastAPI server:
+   *Ini akan menghasilkan file `recommendation_model.pkl` dan `product_mapping.pkl`.*
+4. Mulai server FastAPI:
    ```bash
    uvicorn main:app --reload
    ```
-   *The backend will run on `http://localhost:8000`.*
+   *Backend akan berjalan di `http://localhost:8000`.*

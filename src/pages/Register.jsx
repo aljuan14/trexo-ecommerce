@@ -31,8 +31,8 @@ const Register = () => {
     } else {
       setSuccess(true);
       setTimeout(() => {
-        navigate('/login');
-      }, 3000);
+        navigate('/');
+      }, 2000);
     }
     setLoading(false);
   };
@@ -56,7 +56,7 @@ const Register = () => {
 
         {success && (
           <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-xl text-sm border border-green-100 font-medium">
-            Registrasi berhasil! Anda akan dialihkan ke halaman login...
+            Registrasi berhasil! Anda otomatis masuk dan akan dialihkan ke beranda...
           </div>
         )}
 
